@@ -1,3 +1,5 @@
+#pip install mlflow scikit-learn pandas numpy
+
 import mlflow
 import mlflow.sklearn
 from sklearn.model_selection import train_test_split
