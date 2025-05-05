@@ -92,6 +92,6 @@ with mlflow.start_run(run_name="Diabetes_PyTorch_Model") as run:
 
 # mlflow models serve -m "models:/MyDiabetesModel/1" --port 5001
 
-# curl -X POST http://127.0.0.1:5001/invocations \
-#      -H "Content-Type: application/json" \
-#      -d '{"inputs": [[0.038, 0.050, 0.061, 0.021, -0.044, -0.034, -0.043, -0.002, 0.019, -0.017]]}'
+# curl -X POST http://127.0.0.1:5001/invocations ^
+#   -H "Content-Type: application/json" ^
+#   -d "{\"inputs\": [[0.038, 0.050, 0.061, 0.021, -0.044, -0.034, -0.043, -0.002, 0.019, -0.017]]}"
