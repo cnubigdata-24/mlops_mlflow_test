@@ -17,6 +17,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 mlflow.set_experiment("classification_model_comparison")
 
 # Model 1: RandomForest
+# A new Run ID is generated on the MLflow Tracking server
+# Upon exiting the block, MLflow automatically calls end_run()
 with mlflow.start_run(run_name="RandomForest_Model"):
     model1 = RandomForestClassifier(n_estimators=100, max_depth=5, random_state=42)
     model1.fit(X_train, y_train)
