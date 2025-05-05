@@ -91,6 +91,8 @@ with mlflow.start_run(run_name="Diabetes_PyTorch_Model") as run:
 
 
 # mlflow models serve -m "models:/MyDiabetesModel/1" --port 5001
+# or
+# mlflow models serve -m "C:/Users/User/mlruns/[run-id]/artifacts/model" --port 5001
 
 # curl -X POST http://127.0.0.1:5001/invocations ^
 #   -H "Content-Type: application/json" ^
