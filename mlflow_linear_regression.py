@@ -8,7 +8,6 @@ from sklearn.metrics import mean_squared_error
 import pandas as pd
 import numpy as np
 
-# 데이터 생성
 np.random.seed(42)
 X = np.random.rand(100, 1) * 10
 y = 2.5 * X + np.random.randn(100, 1)
@@ -19,12 +18,10 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 mlflow.set_experiment("LinearRegression-Experiment")
 
 with mlflow.start_run():  
-    # 모델 학습
     model = LinearRegression()
     model.fit(X_train, y_train)
 
-    # 예측 및 평가
-    predictions = model.predict(X_test)
+     predictions = model.predict(X_test)
     mse = mean_squared_error(y_test, predictions)
 
     # 매개변수 및 메트릭 기록
