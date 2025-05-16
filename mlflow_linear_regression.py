@@ -21,7 +21,7 @@ with mlflow.start_run():
     model = LinearRegression()
     model.fit(X_train, y_train)
 
-     predictions = model.predict(X_test)
+    predictions = model.predict(X_test)
     mse = mean_squared_error(y_test, predictions)
 
     # 매개변수 및 메트릭 기록
