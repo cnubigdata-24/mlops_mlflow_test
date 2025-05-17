@@ -1,3 +1,5 @@
+# pip install mlflow scikit-learn pandas numpy
+
 import mlflow
 import mlflow.sklearn
 from mlflow.tracking import MlflowClient
