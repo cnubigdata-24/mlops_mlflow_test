@@ -61,7 +61,30 @@ if not os.path.exists(model_dir):
 
 # Start MLflow run
 with mlflow.start_run(run_name="Diabetes_Run") as run:
-    print("Training started...")
+    # Manually log model parameters that aren't captured by autologging
+    mlflow.log_params({
+        "model_type": "DiabetesRegressor",
+        "input_dim": X.shape[1],
+        "hidden_dim": 64,
+        "learning_rate": 0.01,
+        "criterion": "MSELoss",
+        "optimizer": "Adam",
+        "batch_size": "full batch",  # 배치 크기
+        "num_epochs": 10
+    })
+
+    # Also log dataset information
+    mlflow.log_params({
+        "dataset": "diabetes",
+        "train_size": X_train.shape[0],
+        "test_size": X_test.shape[0],
+        "num_features": X.shape[1]
+    })
+
+    print("🚀 Training started...")
+    train_losses = []
+    val_losses = []
+    
     for epoch in range(10):
         model.train()
         optimizer.zero_grad()
@@ -71,15 +94,42 @@ with mlflow.start_run(run_name="Diabetes_Run") as run:
         optimizer.step()
         
         model.eval()
-        val_outputs = model(X_test_tensor)
-        val_loss = criterion(val_outputs, y_test_tensor)
+        with torch.no_grad():
+            val_outputs = model(X_test_tensor)
+            val_loss = criterion(val_outputs, y_test_tensor)
+        
+        # Store losses for this epoch
+        train_loss_val = loss.item()
+        val_loss_val = val_loss.item()
+        train_losses.append(train_loss_val)
+        val_losses.append(val_loss_val)
+        
+        # Log metrics for each epoch
+        mlflow.log_metrics({
+            "train_loss": train_loss_val,
+            "val_loss": val_loss_val
+        }, step=epoch)
         
         print(
-            f"Epoch {epoch+1}/10 — Train Loss: {loss.item():.4f}, "
-            f"Val Loss: {val_loss.item():.4f}"
+            f"Epoch {epoch+1}/10 — Train Loss: {train_loss_val:.4f}, "
+            f"Val Loss: {val_loss_val:.4f}"
         )
     
-    print("Training complete.")
+    # Log final metrics
+    final_train_loss = train_losses[-1]
+    final_val_loss = val_losses[-1]
+    mlflow.log_metrics({
+        "final_train_loss": final_train_loss,
+        "final_val_loss": final_val_loss,
+    })
+    
+    # Calculate MSE on test set
+    with torch.no_grad():
+        test_preds = model(X_test_tensor).numpy()
+        test_mse = ((test_preds - y_test_tensor.numpy()) ** 2).mean()
+        mlflow.log_metric("test_mse", test_mse)
+    
+    print("✅ Training complete.")
     
     # Save model directly to local directory (overwrite if exists)
     if os.path.exists(model_dir):
