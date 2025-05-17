@@ -81,7 +81,7 @@ with mlflow.start_run(run_name="Diabetes_Run") as run:
         "num_features": X.shape[1]
     })
 
-    print("🚀 Training started...")
+    print("Training started...")
     train_losses = []
     val_losses = []
     
@@ -129,7 +129,7 @@ with mlflow.start_run(run_name="Diabetes_Run") as run:
         test_mse = ((test_preds - y_test_tensor.numpy()) ** 2).mean()
         mlflow.log_metric("test_mse", test_mse)
     
-    print("✅ Training complete.")
+    print("Training complete.")
     
     # Save model directly to local directory (overwrite if exists)
     if os.path.exists(model_dir):
