@@ -61,7 +61,7 @@ if not os.path.exists(model_dir):
 
 # Start MLflow run
 with mlflow.start_run(run_name="Diabetes_Run") as run:
-    print("🚀 Training started...")
+    print("Training started...")
     for epoch in range(10):
         model.train()
         optimizer.zero_grad()
