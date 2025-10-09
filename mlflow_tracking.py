@@ -15,12 +15,12 @@ client = MlflowClient()
 experiment_name = "classification_model_comparison"
 
 # Restore deleted experiment if it exists
-deleted_experiments = client.search_experiments(view_type=mlflow.entities.ViewType.DELETED_ONLY)
-for exp in deleted_experiments:
-    if exp.name == experiment_name:
-        client.restore_experiment(exp.experiment_id)
-        print(f"Restored deleted experiment '{experiment_name}'.")
-        break
+# deleted_experiments = client.search_experiments(view_type=mlflow.entities.ViewType.DELETED_ONLY)
+# for exp in deleted_experiments:
+#     if exp.name == experiment_name:
+#         client.restore_experiment(exp.experiment_id)
+#         print(f"Restored deleted experiment '{experiment_name}'.")
+#         break
 
 # Set experiment (now it should work since we've restored it)
 mlflow.set_experiment(experiment_name)
