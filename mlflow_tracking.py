@@ -1,3 +1,18 @@
+# mlflow --version 
+# pip install mlflow==3.4.0
+# pip install scikit-learn pandas numpy
+# pip show mlflow
+# python mlflow_tracking.py
+# mlflow ui
+
+# If you want to delete an existing experiment, follow these steps
+# Step 1: List experiments
+# mlflow experiments search --view all (For active experiments only: mlflow experiments search)
+# Step 2: Find the experiment ID, then delete using the ID
+# mlflow experiments delete --experiment-id <experiment_id>
+# Step 3: Delete the experiment folder from the .trash directory 
+# rm -rf mlruns/.trash/<experiment_id> 
+
 import mlflow
 import mlflow.sklearn
 from mlflow.tracking import MlflowClient
