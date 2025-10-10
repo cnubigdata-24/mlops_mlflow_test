@@ -27,13 +27,12 @@ import warnings
 import os
 import logging
 
-# MLflow 위젯 표시 비활성화
+# MLflow 위젯 비활성화
 os.environ['MLFLOW_ENABLE_ARTIFACTS_PROGRESS_BAR'] = 'false'
 
-# MLflow 로깅 레벨을 ERROR로 설정하여 WARNING 숨김
+# MLflow 로깅 레벨 ERROR로 설정 (WARNING 숨김)
 logging.getLogger('mlflow').setLevel(logging.ERROR)
 
-# 모든 warnings 필터링
 warnings.filterwarnings('ignore')
 
 # Create MLflow client
