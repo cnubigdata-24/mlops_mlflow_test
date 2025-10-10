@@ -49,6 +49,8 @@ X, y = make_classification(n_samples=1000, n_features=20, n_informative=15, n_re
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Model 1: RandomForest
+# A new Run ID is generated on the MLflow Tracking server
+# Upon exiting the block, MLflow automatically calls end_run()
 start_time = time.time()
 with mlflow.start_run(run_name="RandomForest_Model"):
     model1 = RandomForestClassifier(n_estimators=100, max_depth=5, random_state=42)
