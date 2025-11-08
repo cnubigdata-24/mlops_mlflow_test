@@ -1,3 +1,11 @@
+import os
+import warnings
+
+# disable TensorFlow warning
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+warnings.filterwarnings('ignore')
+
 import mlflow
 import mlflow.pytorch
 from mlflow.tracking import MlflowClient
@@ -6,8 +14,9 @@ import torch.nn as nn
 import torch.optim as optim
 from sklearn.datasets import load_diabetes
 from sklearn.model_selection import train_test_split
-import os
 import shutil
+
+# mlflow models serve -m models:/MyDiabetesModel/1 --port 5001 --no-conda
 
 # Create MLflow client
 client = MlflowClient()
@@ -69,7 +78,7 @@ with mlflow.start_run(run_name="Diabetes_Run") as run:
         "learning_rate": 0.01,
         "criterion": "MSELoss",
         "optimizer": "Adam",
-        "batch_size": "full batch",  # 배치 크기
+        "batch_size": "full batch",
         "num_epochs": 10
     })
 
@@ -134,7 +143,17 @@ with mlflow.start_run(run_name="Diabetes_Run") as run:
     # Save model directly to local directory (overwrite if exists)
     if os.path.exists(model_dir):
         shutil.rmtree(model_dir)
-    mlflow.pytorch.save_model(model, model_dir)
+    
+    pip_requirements = [
+        f"torch=={torch.__version__.split('+')[0]}",
+        f"scikit-learn=={__import__('sklearn').__version__}"
+    ]
+    
+    mlflow.pytorch.save_model(
+        model, 
+        model_dir,
+        pip_requirements=pip_requirements
+    )
     print(f"> Model saved locally at: {os.path.abspath(model_dir)}")
     
     # Register the model in Model Registry
@@ -146,8 +165,7 @@ with mlflow.start_run(run_name="Diabetes_Run") as run:
     print("\n To serve the registered model via REST API:")
     print(f"> mlflow models serve -m models:/{registered_model_name}/{result.version} --port 5001 --no-conda")
 
-# test the API 
-# cli prompt
+################# test the API ####################
 # mlflow models serve -m models:/MyDiabetesModel/1 --port 5001 --no-conda 
 # curl -X POST http://127.0.0.1:5001/invocations -H "Content-Type:application/json" --data "{\"dataframe_split\": {\"columns\":[\"feature_0\",\"feature_1\",\"feature_2\",\"feature_3\",\"feature_4\",\"feature_5\",\"feature_6\",\"feature_7\",\"feature_8\",\"feature_9\"], \"data\":[[0.03807591,0.05068012,0.06169621,0.02187239,-0.0442235,-0.03482076,-0.04340085,-0.00259226,0.01990842,-0.01764613]]}}"
 
