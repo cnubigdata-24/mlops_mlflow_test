@@ -1,7 +1,9 @@
 # mlflow --version 
 # pip install mlflow==3.4.0
 # pip install scikit-learn pandas numpy
+# pip install xgboost
 # pip show mlflow
+# python mlflow_tracking.py
 # python mlflow_tracking.py
 # mlflow ui
 
