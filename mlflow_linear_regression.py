@@ -15,43 +15,43 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 import pandas as pd
 
-# 실험 설정
+# Experiment setup
 experiment_name = "LinearRegression-Experiment"
 existing_exp = mlflow.get_experiment_by_name(experiment_name)
 if existing_exp is None:
     experiment_id = mlflow.create_experiment(experiment_name)
-    print(f"새 실험 '{experiment_name}' 생성")
+    print(f"Created new experiment: '{experiment_name}'")
 else:
     experiment_id = existing_exp.experiment_id
-    print(f"기존 실험 '{experiment_name}' 사용")
+    print(f"Using existing experiment: '{experiment_name}'")
 
 mlflow.set_experiment(experiment_name)
 
-# 데이터 생성
+# Data generation
 X, y = make_regression(n_samples=100, n_features=5, noise=0.1, random_state=42)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# 모델 학습
+# Model training
 with mlflow.start_run():
     model = LinearRegression()
     model.fit(X_train, y_train)
     
-    # 예측 및 평가
+    # Prediction and evaluation
     predictions = model.predict(X_test)
     mse = mean_squared_error(y_test, predictions)
     
-    # 메트릭 로깅
+    # Log metrics
     mlflow.log_metric("mse", mse)
     
-    # input_example 생성
+    # Create input_example
     input_example = pd.DataFrame(X_train[:5])
     
-    # 모델 로깅
+    # Log model
     mlflow.sklearn.log_model(
         sk_model=model,
-        name="model",             
+        name="model",
         input_example=input_example,
         registered_model_name="LinearRegressionModel"
     )
     
-    print(f"MSE: {mse:.4f}로 모델 기록")
+    print(f"Model logged with MSE: {mse:.4f}")
