@@ -165,10 +165,12 @@ with mlflow.start_run(run_name="Diabetes_Run") as run:
     print("\n To serve the registered model via REST API:")
     print(f"> mlflow models serve -m models:/{registered_model_name}/{result.version} --port 5001 --no-conda")
 
-################# test the API ####################
+################# test the API  ####################
+### 1. CLI curl Test ###
 # mlflow models serve -m models:/MyDiabetesModel/1 --port 5001 --no-conda 
 # curl -X POST http://127.0.0.1:5001/invocations -H "Content-Type:application/json" --data "{\"dataframe_split\": {\"columns\":[\"feature_0\",\"feature_1\",\"feature_2\",\"feature_3\",\"feature_4\",\"feature_5\",\"feature_6\",\"feature_7\",\"feature_8\",\"feature_9\"], \"data\":[[0.03807591,0.05068012,0.06169621,0.02187239,-0.0442235,-0.03482076,-0.04340085,-0.00259226,0.01990842,-0.01764613]]}}"
 
+### 2. Python REST API Call ###
 # python 
 # import requests
 # import json
