@@ -1,5 +1,5 @@
 # mlflow --version
-# pip install mlflow==3.4.0
+# pip install mlflow
 # pip install scikit-learn pandas numpy
 # pip show mlflow
 # mkdir mlflow_test
