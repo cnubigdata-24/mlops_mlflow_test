@@ -1,4 +1,5 @@
 #pip install tensorflow
+
 import mlflow
 import mlflow.tensorflow
 from mlflow.tracking import MlflowClient
@@ -35,8 +36,8 @@ print("Loading sample data...")
 X, y = load_diabetes(return_X_y=True)
 
 # Use only a subset for faster training (e.g., 30 samples)
-X = X[:1000]
-y = y[:1000]
+X = X[:400]
+y = y[:400]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Save input data to a DataFrame
