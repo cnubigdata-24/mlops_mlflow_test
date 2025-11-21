@@ -1,3 +1,5 @@
+# pip install torch
+
 import os
 import warnings
 
@@ -65,6 +67,7 @@ optimizer = optim.Adam(model.parameters(), lr=0.01)
 
 # Prepare local model directory
 model_dir = "diabetes_model_direct"
+
 if not os.path.exists(model_dir):
     os.makedirs(model_dir)
 
