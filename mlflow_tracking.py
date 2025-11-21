@@ -50,12 +50,19 @@ mlflow.set_experiment(experiment_name)
 X, y = make_classification(n_samples=1000, n_features=20, n_informative=15, n_redundant=5, random_state=42)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+# RandomForest Hyperparameter
+rf_params = {
+    'n_estimators': 100,
+    'max_depth': 5,
+    'min_samples_split': 2,
+    'min_samples_leaf': 1,
+    'random_state': 42
+}
+
 # Model 1: RandomForest
-# A new Run ID is generated on the MLflow Tracking server
-# Upon exiting the block, MLflow automatically calls end_run()
 start_time = time.time()
 with mlflow.start_run(run_name="RandomForest_Model"):
-    model1 = RandomForestClassifier(n_estimators=100, max_depth=5, random_state=42)
+    model1 = RandomForestClassifier(**rf_params)
     model1.fit(X_train, y_train)
     predictions1 = model1.predict(X_test)
     acc1 = accuracy_score(y_test, predictions1)
@@ -63,8 +70,8 @@ with mlflow.start_run(run_name="RandomForest_Model"):
     
     # Log parameters and metrics
     mlflow.log_param("model_type", "RandomForest")
-    mlflow.log_param("n_estimators", 100)
-    mlflow.log_param("max_depth", 3)
+    for param_name, param_value in rf_params.items():
+        mlflow.log_param(param_name, param_value)
     mlflow.log_metric("accuracy", acc1)
     mlflow.log_metric("f1_score", f1_1)
     
@@ -75,10 +82,20 @@ with mlflow.start_run(run_name="RandomForest_Model"):
 rf_time = time.time() - start_time
 print(f"RandomForest execution time: {rf_time:.4f} seconds")
 
+# XGBoost Hyperparameter
+xgb_params = {
+    'learning_rate': 0.1,
+    'max_depth': 3,
+    'n_estimators': 100,
+    'subsample': 0.8,
+    'colsample_bytree': 0.8,
+    'random_state': 42
+}
+
 # Model 2: XGBoost
 start_time = time.time()
 with mlflow.start_run(run_name="XGBoost_Model"):
-    model2 = XGBClassifier(learning_rate=0.1, max_depth=3, n_estimators=100, random_state=42)
+    model2 = XGBClassifier(**xgb_params)
     model2.fit(X_train, y_train)
     predictions2 = model2.predict(X_test)
     acc2 = accuracy_score(y_test, predictions2)
@@ -86,9 +103,8 @@ with mlflow.start_run(run_name="XGBoost_Model"):
     
     # Log parameters and metrics
     mlflow.log_param("model_type", "XGBoost")
-    mlflow.log_param("learning_rate", 0.1)
-    mlflow.log_param("max_depth", 4)
-    mlflow.log_param("n_estimators", 200)
+    for param_name, param_value in xgb_params.items():
+        mlflow.log_param(param_name, param_value)
     mlflow.log_metric("accuracy", acc2)
     mlflow.log_metric("f1_score", f1_2)
     
