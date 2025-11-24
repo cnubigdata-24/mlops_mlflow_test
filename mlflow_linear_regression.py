@@ -1,11 +1,20 @@
-# mlflow --version
-# pip install mlflow
-# pip install scikit-learn pandas numpy
-# pip show mlflow
 # mkdir mlflow_test
 # cd mlflow_test
+
+# python -m venv myenv
+# myenv\Scripts\activate
+
+# mlflow --version
+
+# pip install mlflow==3.6.0
+# pip install scikit-learn pandas numpy
+
+# pip show mlflow
+
 # python mlflow_linear_regression.py
+
 # mlflow ui
+
 
 import mlflow
 import mlflow.sklearn
