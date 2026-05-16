@@ -4,7 +4,6 @@
 # pip install xgboost
 # pip show mlflow
 # python mlflow_tracking.py
-# python mlflow_tracking.py
 # mlflow ui
 
 # If you want to delete an existing experiment, follow these steps
