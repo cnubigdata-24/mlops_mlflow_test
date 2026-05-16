@@ -1,4 +1,5 @@
 # pip install torch
+# python mlflow_model_serving.py
 
 import os
 import warnings
