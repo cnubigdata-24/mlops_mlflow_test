@@ -1,4 +1,6 @@
-#pip install tensorflow
+# pip install tensorflow
+# pip install tensorboard
+# python mlflow_autolog.py
 
 import mlflow
 import mlflow.tensorflow
